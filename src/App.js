@@ -3,8 +3,8 @@ import { supabase } from "./supabaseClient";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 
-var SESSION_MAX_AGE = 24 * 60 * 60 * 1000; // 24 horas
-var INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutos
+var SESSION_MAX_AGE = 24 * 60 * 60 * 1000;
+var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 
 function App() {
   var [session, setSession] = useState(null);
@@ -51,7 +51,6 @@ function App() {
     return function() { listener.subscription.unsubscribe(); };
   }, [checkSessionAge]);
 
-  // Inactivity timer
   useEffect(function() {
     if (!session) return;
     var timer = null;
@@ -65,7 +64,6 @@ function App() {
     var events = ["mousedown", "keydown", "scroll", "touchstart", "mousemove"];
     events.forEach(function(e) { document.addEventListener(e, resetTimer); });
     resetTimer();
-    // Check 24h expiry every minute
     var ageCheck = setInterval(function() {
       var loginTime = localStorage.getItem("borro-login-time");
       if (loginTime && (Date.now() - parseInt(loginTime)) > SESSION_MAX_AGE) {
